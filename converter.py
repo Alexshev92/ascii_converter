@@ -126,8 +126,9 @@ class Window(tk.Tk):
             file_ext = '.jpg'
         elif self.var.get() == 4:
             file_ext = '.bmp'
-        filename_1 = filename[0] + '_ascii' + file_ext
-        self.image2.save(filename_1)
+        final_filename = temp[0] + '/' + filename[0] + '_ascii' + file_ext
+	print final_filename
+        self.image2.save(final_filename)
 
     def show(self):
         self.convert()
