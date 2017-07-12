@@ -30,9 +30,9 @@ class Window(tk.Tk):
         self.var.set(1)
         submenu = tk.Menu(menu_file, tearoff=0)
         submenu.add_radiobutton(label="png", variable=self.var, value=1)
-        submenu.add_radiobutton(label="gif", variable = self.var, value=2)
-        submenu.add_radiobutton(label="jpg", variable = self.var, value=3)
-        submenu.add_radiobutton(label="bmp", variable = self.var, value=4)
+        submenu.add_radiobutton(label="gif", variable=self.var, value=2)
+        submenu.add_radiobutton(label="jpg", variable=self.var, value=3)
+        submenu.add_radiobutton(label="bmp", variable=self.var, value=4)
         menu_file.add_cascade(label='Output File Format', menu=submenu, underline=0)
         menu_file.add_command(label='Exit', command=self.quit_program)
 
@@ -56,17 +56,17 @@ class Window(tk.Tk):
         width = image.size[0] 
         height = image.size[1] 
         bw_image = image.convert("L")
-        self.image2 = Image.new("1", (width, height))
-        draw = ImageDraw.Draw(self.image2)
+        self.ascii_image = Image.new("1", (width, height))
+        draw = ImageDraw.Draw(self.ascii_image)
         pix_sum = 0
         for y in range(height/8):
             for x in range(width/6):
-                temp = bw_image.crop((6*x, 8*y, 6*x+5, 8*y+7))
-                for i in range(5):
-                    for j in range(7):
+                temp = bw_image.crop((6*x, 8*y, 6*x+6, 8*y+8))
+                for i in range(6):
+                    for j in range(8):
                         pix = temp.load()
                         pix_sum = pix_sum + pix[i, j]
-                pix_sum = pix_sum // 35
+                pix_sum = pix_sum // 48
                 if (pix_sum > 50 and pix_sum <= 60):
                     draw.text((6*x,8*y), ".", font=fnt, fill='white')
                 elif (pix_sum > 60 and pix_sum <= 85):
@@ -127,12 +127,11 @@ class Window(tk.Tk):
         elif self.var.get() == 4:
             file_ext = '.bmp'
         final_filename = temp[0] + '/' + filename[0] + '_ascii' + file_ext
-	print final_filename
-        self.image2.save(final_filename)
+        self.ascii_image.save(final_filename)
 
     def show(self):
         self.convert()
-        self.image2.show()
+        self.ascii_image.show()
         
 if __name__ == '__main__':
     root = Window(tk.Tk)
